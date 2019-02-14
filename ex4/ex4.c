@@ -44,6 +44,8 @@ int main(void)
         arguments[1] = "ls";
         arguments[2] = "-l";
         execle(arguments[0], arguments[1], arguments[2], (char*)NULL, env);
+    } else {
+        printf("I'm a parent. \n");
     }
 
     return 0;
