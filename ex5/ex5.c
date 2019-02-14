@@ -16,7 +16,36 @@ char* msg3 = "hello world #3";
 
 int main(void)
 {
-    // Your code here
+    int rw[2];
+    int p = pipe(rw);
+
+    if (p < 0) {
+        printf("UH OH - PIRAHNA PLANT! PIPE FAILED.");
+        exit(1);
+    }
+
+    int child = fork();
+
+    if (child < 0) {
+        // Error
+        printf("To be, or not to be, is not the question because PIPE FAILED.");
+    } else if (child == 0) {
+        // Child
+        char buffer[MSGSIZE];
+        close(rw[1]);
+        printf("Child: \n");
+        for (int i = 0; i < 3; i++) {
+            read(rw[0], buffer, MSGSIZE);
+            printf("%s\n", buffer);
+        }
+
+    } else {
+        // Parent
+        close(rw[0]);
+        write(rw[1], msg1, MSGSIZE);
+        write(rw[1], msg2, MSGSIZE);
+        write(rw[1], msg3, MSGSIZE);
+    }
     
     return 0;
 }

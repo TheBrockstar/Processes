@@ -21,6 +21,21 @@ and `clock_gettime()` should work just fine.
 int main()
 {
     // Your code here
+
+    char *empty = "";
+    struct timespec start, end;
+    int difference = 0;
+
+    for (int i = 0; i < number_iter; i++ ){
+        clock_gettime(CLOCK_MONOTONIC, &start);
+        printf("%s", empty);
+        clock_gettime(CLOCK_MONOTONIC, &end);
+        difference = difference + (BILLION * (end.tv_sec - start.tv_sec) + end.tv_nsec - start.tv_nsec);
+    }
+
+    difference /= number_iter;
+
+    printf("Average time per write: %i nanoseconds\n", difference);
     
     return 0;
 }
